@@ -86,7 +86,7 @@ def get_area_urls() -> Set[str]:
         with open(CENTADATA_AREA_FILE, 'r', encoding='utf8') as f:
             return {x.replace('\n', '') for x in f.readlines() if x != ''}
     area_urls: Set[str] = get_urls('http://hk.centadata.com/Floorplan.aspx?type=22&code=102&ref=CD2_Detail_Nav', set())
-    area_urls = {x for x in area_urls if 'type=22' in x}
+    area_urls = {x for x in area_urls if x is not None}
     with open(CENTADATA_AREA_FILE, 'a+', encoding='utf8') as f:
         f.writelines(area_urls)
     return area_urls
