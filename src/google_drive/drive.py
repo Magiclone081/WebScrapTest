@@ -111,3 +111,10 @@ class Drive:
         media = MediaFileUpload(source_file)
         d = Drive._get_service().files().create(body=metadata, media_body=media).execute()
         logger.info(f'Uploading done for {File(**d)}')
+
+    @staticmethod
+    def rename(file_id: str, new_name: str) -> None:
+        drive_file: File = Drive.file_info(file_id)
+        logger.info(f'Renaming file for {drive_file} to {new_name}')
+        d = Drive._get_service().files().update(fileId=file_id, body={'name': new_name}).execute()
+        logger.info(f'Renamed file to {File(**d)}')
