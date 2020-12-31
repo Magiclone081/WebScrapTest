@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from typing import Callable
 
 
 class Utils:
@@ -15,3 +16,10 @@ class Utils:
         while os.path.basename(path) not in [name, '']:
             path = os.path.dirname(path)
         return path
+
+    @staticmethod
+    def os_try_catch(func: Callable[[], None]):
+        try:
+            func()
+        except OSError:
+            pass

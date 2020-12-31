@@ -11,6 +11,7 @@ class FileKind(Enum):
 
 class MimeType(Enum):
     JPEG = 'image/jpeg'
+    GIF = 'image/gif'
     ZIP = 'application/x-zip-compressed'
     FOLDER = 'application/vnd.google-apps.folder'
     UNKNOWN = ''
