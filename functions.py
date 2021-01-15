@@ -83,6 +83,7 @@ def download_image(image_response, img_name: str):
         else:
             with open(img_name, "wb") as imagef:
                 imagef.write(image_response.content)
+
             Utils.print(f'{img_name} downloaded')
     elif not is_good_response(image_response):
         Utils.print(f'{img_name} error')
