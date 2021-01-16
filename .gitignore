@@ -1,0 +1,9 @@
+.idea/*
+*.xml
+*.iml
+*.txt
+*.png
+/token.pickle
+/logs/*.log
+/img/*.png
+/src/google_drive/token.pickle
