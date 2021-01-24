@@ -13,7 +13,7 @@ from functions import special_get, write_file, download_image
 #     picurl.append(i.__getitem__('wan_doc_path'))
 #
 # print(picurl)
-from util import Utils
+from core.util import Utils
 
 
 class MidData(Enum):

@@ -6,8 +6,10 @@ from os import path
 
 from bs4 import BeautifulSoup
 from typing import List
+
+from core.util import Utils
 from functions import special_get, write_file, download_image
-from util import Utils
+
 
 
 class LlkData(Enum):
@@ -33,9 +35,10 @@ def llk_main():
         Utils.print(f'Processing url ({img_count}/{len(pic_urls)}): {pic_url}')
         image_response = special_get(pic_url)
 
-        img_name = f'mid_img{img_count}'
+        img_name = f'llk_img{img_count}'
         download_image(image_response, img_name)
         img_count += 1
+        break
 
 
 

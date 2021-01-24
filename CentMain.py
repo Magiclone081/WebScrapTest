@@ -9,7 +9,7 @@ from requests import get
 
 from functions import simple_get, write_file, special_get, download_image
 
-from util import Utils
+from core.util import Utils
 
 
 class CentaData(Enum):

@@ -1,3 +1,4 @@
+import os
 import time
 from contextlib import closing
 from http import HTTPStatus
@@ -9,7 +10,9 @@ from requests.exceptions import RequestException
 from requests.models import Response
 
 # from CentMain import get_urls_from_centa_link
-from util import Utils
+from core.util import Utils
+
+from google_drive.drive import Drive
 
 timer = 30
 
@@ -72,6 +75,16 @@ def write_file(file_name: str, urls: Set[str]):
         for i in urls:
             f.write(f'{i}\n')
 
+# RAW_IMAGES_FOLDER_ID = '1Of2lHAj2MO8laNdzE5qVM1oGlpfXRnoU'
+RAW_IMAGES_FOLDER_ID = '1NPDEzmPn4uVE9fWCEHj8sbEgTixelNm6'
+
+def upload_image(img_name: str):
+    # Drive.upload_single(RAW_IMAGES_FOLDER_ID, img_name)
+    # image_response = special_get('https://www.googleapis.com/drive/v2/files/0B5DKSxxeuR5Ac0lkdHhSR0hvUE0')
+    # print(repr(image_response))
+    Drive.list(RAW_IMAGES_FOLDER_ID)
+    # Utils.os_try_catch(lambda: os.remove(img_name))
+
 
 def download_image(image_response, img_name: str):
     possible_type = ['gif', 'jpeg']
@@ -80,10 +93,13 @@ def download_image(image_response, img_name: str):
         img_name = f'{img_name}.{type}'
         if path.exists(img_name):
             Utils.print(f'{img_name} downloaded previously')
+            upload_image(img_name)
         else:
             with open(img_name, "wb") as imagef:
                 imagef.write(image_response.content)
+            upload_image(img_name)
 
             Utils.print(f'{img_name} downloaded')
+
     elif not is_good_response(image_response):
         Utils.print(f'{img_name} error')

@@ -63,12 +63,13 @@ class Drive:
     @staticmethod
     def _get_service() -> Resource:
         if Drive._service is None:
-            Drive._service = build('drive', 'v3', credentials=Drive._get_credential())
+            Drive._service = build('drive', 'v2', credentials=Drive._get_credential())
+
         return Drive._service
 
     @staticmethod
     def file_info(file_id: str) -> File:
-        d: Dict[str, str] = Drive._get_service().files().get(fileId=file_id).execute()
+        d: Dict[str, str] = Drive._get_service().files().get(fileId=file_id, supportsAllDrives=True).execute()
         return File(**d)
 
     @staticmethod
@@ -115,7 +116,7 @@ class Drive:
         logger.info(f'Uploading {source_file} to {drive_file}')
         metadata = {'name': os.path.basename(source_file), 'parents': [file_id]}
         media = MediaFileUpload(source_file)
-        d = Drive._get_service().files().create(body=metadata, media_body=media).execute()
+        d = Drive._get_service().files().create(body=metadata, media_body=media, supportsAllDrives=True).execute()
         logger.info(f'Uploading done for {File(**d)}')
 
     @staticmethod
