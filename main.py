@@ -1,24 +1,59 @@
-# This is a sample Python script.
-import json
-import time
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import logging
+import os
+import shutil
+import sys
+import zipfile
+from typing import List
 import urllib
-import re
-from contextlib import closing
-from http import HTTPStatus
-from http.client import IncompleteRead
-from os import path
-from typing import List, Set
-
-from bs4 import BeautifulSoup
-from requests import get
-from requests.exceptions import RequestException
-from requests.models import Response
 
 from LlkMain import llk_main
-from MidMain import mid_main
+from src.core.log_handler import LogHandler
+from src.core.util import Utils
+from src.google_drive.drive import Drive
+from src.google_drive.file import File, MimeType
 
+LOGS_FOLDER = os.path.join(Utils.get_project_root(), 'logs')
+IMG_FOLDER = os.path.join(Utils.get_project_root(), 'img')
+FLOOR_PLAN_IMAGES_FOLDER_ID = '1u1QpBbcumSra8StCwtaOZTdFDdtpXUU3'
+RAW_IMAGES_FOLDER_ID = '1Of2lHAj2MO8laNdzE5qVM1oGlpfXRnoU'
+PROCESSED_IMAGES_FOLDER_ID = '19BjKK-aPlt-R8NMYTNhSIQMZkVeg-Pni'
+SAMPLE_IMAGE = '1FSMo0L0rZRcRSNbPUeYDLXMhoGSMyXkL'
+
+logger: logging.Logger
+
+START_ZIP_INDEX = 2
+END_ZIP_INDEX = 2
+START_FILE_INDEX = 2489
+
+
+class DriveAccessor:
+    @staticmethod
+    def _exception_hook(exctype, exc, tb) -> None:
+        logger.error("An unhandled exception occurred.", exc_info=(exctype, exc, tb))
+
+    @staticmethod
+    def init_logger() -> logging.Logger:
+        sys.excepthook = DriveAccessor._exception_hook
+        formatter = logging.Formatter(
+            '%(levelname)s [%(asctime)s] [%(module)s.%(funcName)s] %(message)s')
+        print(repr(Utils.get_project_root()))
+        handler = LogHandler(formatter, os.path.join(LOGS_FOLDER, 'drive.log'))
+        logging.basicConfig(**{'level': logging.INFO, 'handlers': [handler]})
+        logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
+        return logging.getLogger()
+
+    @staticmethod
+    def main():
+        logger.info('==========================')
+        logger.info('Program started')
+        logger.info('==========================')
+        llk_main()
+        logger.info('Program done')
+
+
+if __name__ == '__main__':
+    logger = DriveAccessor.init_logger()
+    DriveAccessor.main()
 
 
 # and a_area_url.parent in parents_area
@@ -59,20 +94,7 @@ def hkp_retrieve_img_url():
                 hkp_pic_url_html_real.append(hkp_pic_url_html_raw_array_item)
                 hkp_url_file.write(hkp_pic_url_html_raw_array_item)
                 hkp_url_file.write('\n')
-        
+
         hkp_url_file.close()
         """
         counter += 1
-
-
-
-# jsfnumofpage
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    # cent_main()
-    # mid_main()
-    llk_main()
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/

@@ -2,7 +2,7 @@ import json
 import re
 from collections import Set
 from enum import Enum
-from os import path
+import os
 
 from bs4 import BeautifulSoup
 from typing import List
@@ -23,9 +23,9 @@ class LlkData(Enum):
     GET_MAX_PAGE_NUM_REGEX = re.compile(GET_MAX_PAGE_NUM_STR)
     GET_PIC_URL_STR = '^javascript:jsfwindowopen\\(.*?fpurl=(.*?)\'\\);$'
     GET_PIC_URL_REGEX = re.compile(GET_PIC_URL_STR)
-    PLACE_FILE = 'llk_place_file.txt'
-    PIC_PAGE_FILE = 'llk_pic_page_file.txt'
-    PIC_FILE = 'llk_pic_file.txt'
+    PLACE_FILE = os.path.join(Utils.get_project_root(), 'llk_place_file.txt')
+    PIC_PAGE_FILE = os.path.join(Utils.get_project_root(), 'llk_pic_page_file.txt')
+    PIC_FILE = os.path.join(Utils.get_project_root(), 'llk_pic_file.txt')
 
 
 def llk_main():
@@ -43,7 +43,7 @@ def llk_main():
 
 
 def _get_pic_urls():
-    if path.exists(LlkData.PIC_FILE.value):
+    if os.path.exists(LlkData.PIC_FILE.value):
         Utils.print(f'Getting area urls from file {LlkData.PIC_FILE.value}:')
         with open(LlkData.PIC_FILE.value, 'r', encoding='utf8') as f:
             return {x.replace('\n', '') for x in f.readlines() if x != ''}
@@ -62,12 +62,13 @@ def _get_pic_urls():
         count += 1
 
 
+
     write_file(LlkData.PIC_FILE.value, pic_urls)
 
 
 
 def _get_pic_page_urls():
-    if path.exists(LlkData.PIC_PAGE_FILE.value):
+    if os.path.exists(LlkData.PIC_PAGE_FILE.value):
         Utils.print(f'Getting area urls from file {LlkData.PIC_PAGE_FILE.value}:')
         with open(LlkData.PIC_PAGE_FILE.value, 'r', encoding='utf8') as f:
             return {x.replace('\n', '') for x in f.readlines() if x != ''}
@@ -114,7 +115,7 @@ def _get_pic_page_urls():
 
 
 def _get_place_urls() -> set[str]:
-    if path.exists(LlkData.PLACE_FILE.value):
+    if os.path.exists(LlkData.PLACE_FILE.value):
         Utils.print(f'Getting area urls from file {LlkData.PLACE_FILE.value}:')
         with open(LlkData.PLACE_FILE.value, 'r', encoding='utf8') as f:
             return {x.replace('\n', '') for x in f.readlines() if x != ''}

@@ -75,14 +75,14 @@ def write_file(file_name: str, urls: Set[str]):
         for i in urls:
             f.write(f'{i}\n')
 
-# RAW_IMAGES_FOLDER_ID = '1Of2lHAj2MO8laNdzE5qVM1oGlpfXRnoU'
-RAW_IMAGES_FOLDER_ID = '1NPDEzmPn4uVE9fWCEHj8sbEgTixelNm6'
+RAW_IMAGE_ID = '1Of2lHAj2MO8laNdzE5qVM1oGlpfXRnoU'
+# RAW_IMAGE_ID = '1NPDEzmPn4uVE9fWCEHj8sbEgTixelNm6'
 
 def upload_image(img_name: str):
-    # Drive.upload_single(RAW_IMAGES_FOLDER_ID, img_name)
+    Drive.upload_single(RAW_IMAGE_ID, img_name)
     # image_response = special_get('https://www.googleapis.com/drive/v2/files/0B5DKSxxeuR5Ac0lkdHhSR0hvUE0')
     # print(repr(image_response))
-    Drive.list(RAW_IMAGES_FOLDER_ID)
+
     # Utils.os_try_catch(lambda: os.remove(img_name))
 
 
@@ -91,15 +91,17 @@ def download_image(image_response, img_name: str):
     type = image_response.headers['content-type'].split(';')[0].replace('image/', '')
     if type in possible_type:
         img_name = f'{img_name}.{type}'
-        if path.exists(img_name):
+        img_path = path.join(Utils.get_project_root(), path.join('img', img_name))
+        if path.exists(img_path):
             Utils.print(f'{img_name} downloaded previously')
-            upload_image(img_name)
-        else:
-            with open(img_name, "wb") as imagef:
-                imagef.write(image_response.content)
-            upload_image(img_name)
 
-            Utils.print(f'{img_name} downloaded')
+        else:
+            with open(img_path, "wb") as imagef:
+                imagef.write(image_response.content)
+
+        upload_image(img_path)
+        # upload_image(path.join(Utils.get_project_root(), 'llk_pic_file.txt'))
+        Utils.print(f'{img_name} downloaded')
 
     elif not is_good_response(image_response):
         Utils.print(f'{img_name} error')

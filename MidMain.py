@@ -19,7 +19,7 @@ from core.util import Utils
 class MidData(Enum):
     PLACE_STR = '.*?<scriptid="__NEXT_DATA__"type="application/json">(.*?)</script>.*?'
     PLACE_URL_REGEX = re.compile(PLACE_STR)
-    PIC_FILE = 'mid_pic_file'
+    PIC_FILE = path.join(Utils.get_project_root(), 'mid_pic_file.txt')
 
 
 def _get_urls() -> set[str]:

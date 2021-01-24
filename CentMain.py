@@ -15,9 +15,9 @@ from core.util import Utils
 class CentaData(Enum):
     JS_STR = '^javascript:common.redirect\\(([0-9]+),"([0-9A-Za-z]+)","(CD2_Detail_Nav)","/Floorplan.aspx"\\);$'
     JS_REGEX = re.compile(JS_STR)
-    AREA_FILE = 'CentArea.txt'
-    PLACE_FILE = 'CentPlace.txt'
-    PIC_FILE = 'CentPic.txt'
+    AREA_FILE = path.join(Utils.get_project_root(), 'CentArea.txt')
+    PLACE_FILE = path.join(Utils.get_project_root(), 'CentPlace.txt')
+    PIC_FILE = path.join(Utils.get_project_root(), 'CentPic.txt')
 
 
 def get_urls_from_centa_link(html, exclude_urls: Set[str]) -> Set[str]:
@@ -36,7 +36,7 @@ def cent_main():
         Utils.print(f'Processing url ({img_count}/{len(pic_urls)}): {pic_url}')
         image_response = special_get(pic_url)
 
-        img_name = f'mid_img{img_count}'
+        img_name = f'cent_img{img_count}'
         download_image(image_response, img_name)
         img_count += 1
 
