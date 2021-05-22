@@ -6,7 +6,9 @@ import zipfile
 from typing import List
 import urllib
 
+from CentMain import cent_main
 from LlkMain import llk_main
+from MidMain import mid_main
 from src.core.log_handler import LogHandler
 from src.core.util import Utils
 from src.google_drive.drive import Drive
@@ -47,6 +49,8 @@ class DriveAccessor:
         logger.info('==========================')
         logger.info('Program started')
         logger.info('==========================')
+        cent_main()
+        mid_main()
         llk_main()
         logger.info('Program done')
 
@@ -58,6 +62,7 @@ if __name__ == '__main__':
 
 # and a_area_url.parent in parents_area
 
+"""
 # first stage for hkp
 def hkp_retrieve_img_url():
     # <915
@@ -76,7 +81,7 @@ def hkp_retrieve_img_url():
         html = urllib.request.urlopen(req).read
 
         print(repr(html))
-        """
+        
         hkp_estate_url = BeautifulSoup(hkp_estate_raw_url, 'html.parser')
         hkp_pic_url_html_raw_array = repr(hkp_estate_url.getText).split('floorplans')
 
@@ -96,5 +101,6 @@ def hkp_retrieve_img_url():
                 hkp_url_file.write('\n')
 
         hkp_url_file.close()
-        """
+        
         counter += 1
+"""

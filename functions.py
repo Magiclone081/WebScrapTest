@@ -98,10 +98,11 @@ def download_image(image_response, img_name: str):
         else:
             with open(img_path, "wb") as imagef:
                 imagef.write(image_response.content)
+                Utils.print(f'{img_name} downloaded')
 
         upload_image(img_path)
         # upload_image(path.join(Utils.get_project_root(), 'llk_pic_file.txt'))
-        Utils.print(f'{img_name} downloaded')
+        Utils.print(f'{img_name} uploaded')
 
     elif not is_good_response(image_response):
         Utils.print(f'{img_name} error')

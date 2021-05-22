@@ -11,7 +11,6 @@ from core.util import Utils
 from functions import special_get, write_file, download_image
 
 
-
 class LlkData(Enum):
     ARRAY_URL_STR = '.*?Array\\((.*?)\\);.*?'
     ARRAY_URL_REGEX = re.compile(ARRAY_URL_STR)
@@ -41,7 +40,6 @@ def llk_main():
         break
 
 
-
 def _get_pic_urls():
     if os.path.exists(LlkData.PIC_FILE.value):
         Utils.print(f'Getting area urls from file {LlkData.PIC_FILE.value}:')
@@ -61,10 +59,7 @@ def _get_pic_urls():
         pic_urls |= target_urls
         count += 1
 
-
-
     write_file(LlkData.PIC_FILE.value, pic_urls)
-
 
 
 def _get_pic_page_urls():
@@ -107,11 +102,7 @@ def _get_pic_page_urls():
         pic_page_urls |= temp
         count += 1
 
-
-
     write_file(LlkData.PIC_PAGE_FILE.value, pic_page_urls)
-
-
 
 
 def _get_place_urls() -> set[str]:
